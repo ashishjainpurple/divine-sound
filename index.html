@@ -1,0 +1,512 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<meta name="description" content="Divine Sound - Experience divine energy through sacred devotional sounds">
+	<meta name="theme-color" content="#ffd36a">
+	<title>Divine Sound - DIVINE AI</title>
+	<style>
+		* {
+			margin: 0;
+			padding: 0;
+			box-sizing: border-box;
+		}
+
+		body {
+			font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+			color: white;
+			text-align: center;
+			background: linear-gradient(160deg, #190008, #4b1d00, #050005);
+			min-height: 100vh;
+		}
+
+		.wrap {
+			padding: 22px;
+			min-height: 100vh;
+			display: flex;
+			flex-direction: column;
+			gap: 20px;
+		}
+
+		.header {
+			margin-bottom: 10px;
+		}
+
+		.logo {
+			color: #ffd36a;
+			font-size: 28px;
+			font-weight: bold;
+			letter-spacing: 2px;
+			text-shadow: 0 0 10px rgba(255, 211, 106, 0.5);
+		}
+
+		.tagline {
+			color: #c9b27c;
+			font-size: 12px;
+			letter-spacing: 1px;
+			margin-top: 5px;
+		}
+
+		.card {
+			max-width: 480px;
+			margin: auto;
+			background: rgba(255, 255, 255, 0.09);
+			border: 1px solid #ffd36a;
+			border-radius: 26px;
+			padding: 20px;
+			box-shadow: 0 0 35px rgba(255, 211, 106, 0.35);
+			backdrop-filter: blur(10px);
+			animation: slideIn 0.6s ease-out;
+		}
+
+		@keyframes slideIn {
+			from {
+				opacity: 0;
+				transform: translateY(20px);
+			}
+			to {
+				opacity: 1;
+				transform: translateY(0);
+			}
+		}
+
+		img {
+			width: 100%;
+			max-height: 310px;
+			object-fit: cover;
+			border-radius: 20px;
+			border: 2px solid #ffd36a;
+			margin-bottom: 15px;
+			transition: transform 0.3s ease;
+		}
+
+		img:hover {
+			transform: scale(1.02);
+		}
+
+		h1 {
+			color: #ffd36a;
+			font-size: 30px;
+			margin: 10px 0 5px;
+		}
+
+		p {
+			color: #fff0bd;
+			font-size: 16px;
+			line-height: 1.5;
+		}
+
+		.subtitle {
+			font-size: 14px;
+			color: #c9b27c;
+			margin-bottom: 15px;
+		}
+
+		audio {
+			width: 100%;
+			margin: 15px 0;
+			outline: none;
+		}
+
+		audio::-webkit-media-controls-panel {
+			background-color: rgba(43, 18, 0, 0.8);
+		}
+
+		button {
+			width: 100%;
+			padding: 15px;
+			margin: 8px 0;
+			font-size: 16px;
+			font-weight: bold;
+			border: none;
+			border-radius: 16px;
+			cursor: pointer;
+			transition: all 0.3s ease;
+		}
+
+		button:hover {
+			transform: translateY(-2px);
+			box-shadow: 0 4px 15px rgba(255, 211, 106, 0.4);
+		}
+
+		button:active {
+			transform: translateY(0);
+		}
+
+		.play {
+			background: #ffd36a;
+			color: #2b1200;
+		}
+
+		.pause {
+			background: #6b3000;
+			color: white;
+			border: 1px solid #ffd36a;
+		}
+
+		.stop {
+			background: #222;
+			color: white;
+			border: 1px solid #777;
+		}
+
+		.controls {
+			display: flex;
+			gap: 10px;
+			margin: 15px 0;
+		}
+
+		.controls button {
+			flex: 1;
+			margin: 0;
+			padding: 12px;
+			font-size: 14px;
+		}
+
+		.volume-control {
+			margin: 15px 0;
+			display: flex;
+			align-items: center;
+			gap: 10px;
+		}
+
+		.volume-control label {
+			color: #ffd36a;
+			font-size: 14px;
+			font-weight: bold;
+			min-width: 30px;
+		}
+
+		.volume-control input {
+			flex: 1;
+			height: 6px;
+			border-radius: 3px;
+			background: rgba(255, 211, 106, 0.3);
+			outline: none;
+			-webkit-appearance: none;
+		}
+
+		.volume-control input::-webkit-slider-thumb {
+			-webkit-appearance: none;
+			appearance: none;
+			width: 16px;
+			height: 16px;
+			border-radius: 50%;
+			background: #ffd36a;
+			cursor: pointer;
+			box-shadow: 0 0 8px rgba(255, 211, 106, 0.6);
+		}
+
+		.volume-control input::-moz-range-thumb {
+			width: 16px;
+			height: 16px;
+			border-radius: 50%;
+			background: #ffd36a;
+			cursor: pointer;
+			border: none;
+			box-shadow: 0 0 8px rgba(255, 211, 106, 0.6);
+		}
+
+		.volume-percent {
+			color: #ffd36a;
+			font-size: 13px;
+			min-width: 30px;
+			font-weight: bold;
+		}
+
+		.status {
+			color: #ffd36a;
+			margin: 12px 0;
+			font-size: 14px;
+			min-height: 20px;
+		}
+
+		.playlist {
+			margin-top: 20px;
+			padding-top: 20px;
+			border-top: 1px solid rgba(255, 211, 106, 0.3);
+		}
+
+		.playlist-title {
+			color: #ffd36a;
+			font-size: 14px;
+			font-weight: bold;
+			margin-bottom: 12px;
+			letter-spacing: 1px;
+		}
+
+		.playlist-grid {
+			display: grid;
+			grid-template-columns: 1fr 1fr;
+			gap: 10px;
+		}
+
+		.playlist-item {
+			padding: 12px;
+			background: rgba(255, 211, 106, 0.1);
+			border: 1px solid rgba(255, 211, 106, 0.3);
+			border-radius: 12px;
+			cursor: pointer;
+			transition: all 0.3s ease;
+			font-size: 13px;
+			color: #fff0bd;
+		}
+
+		.playlist-item:hover {
+			background: rgba(255, 211, 106, 0.2);
+			transform: translateY(-2px);
+		}
+
+		.playlist-item.active {
+			background: #ffd36a;
+			color: #2b1200;
+			font-weight: bold;
+			border-color: #ffd36a;
+			box-shadow: 0 0 12px rgba(255, 211, 106, 0.6);
+		}
+
+		.footer {
+			font-size: 13px;
+			color: #c9b27c;
+			margin-top: 20px;
+		}
+
+		.footer-note {
+			font-size: 11px;
+			color: #8b7c5c;
+			margin-top: 8px;
+		}
+
+		@media (max-width: 480px) {
+			.card {
+				padding: 15px;
+			}
+
+			h1 {
+				font-size: 24px;
+			}
+
+			.logo {
+				font-size: 22px;
+			}
+
+			button {
+				padding: 12px;
+				font-size: 14px;
+			}
+
+			.playlist-grid {
+				grid-template-columns: 1fr;
+			}
+		}
+
+		/* Keyboard focus for accessibility */
+		button:focus,
+		.playlist-item:focus {
+			outline: 2px solid #ffd36a;
+			outline-offset: 2px;
+		}
+	</style>
+</head>
+
+<body>
+	<div class="wrap">
+		<div class="header">
+			<div class="logo">🎵 DIVINE SOUND</div>
+			<div class="tagline">WHERE DEVOTION MEETS INTELLIGENCE</div>
+		</div>
+
+		<div class="card">
+			<img id="godImage" src="" alt="Divine deity">
+
+			<h1 id="title">Divine Sound</h1>
+			<p class="subtitle" id="subtitle">Tap to Experience Divine Energy</p>
+
+			<audio id="player" playsinline controls></audio>
+
+			<div class="controls">
+				<button class="play" onclick="playSound()" title="Play (Space)">▶ PLAY</button>
+				<button class="pause" onclick="pauseSound()" title="Pause (Space)">⏸ PAUSE</button>
+				<button class="stop" onclick="stopSound()" title="Stop">■ STOP</button>
+			</div>
+
+			<div class="volume-control">
+				<label for="volume">🔊</label>
+				<input type="range" id="volume" min="0" max="100" value="70" title="Adjust volume">
+				<span class="volume-percent" id="volumePercent">70%</span>
+			</div>
+
+			<div id="status" class="status">Loading divine sound...</div>
+
+			<div class="playlist">
+				<div class="playlist-title">SELECT A SOUND</div>
+				<div class="playlist-grid" id="playlistGrid"></div>
+			</div>
+		</div>
+
+		<div class="footer">
+			✨ Where devotion meets intelligence ✨
+			<div class="footer-note">Press SPACE to play/pause • Keyboard shortcuts enabled</div>
+		</div>
+	</div>
+
+	<script>
+		const sounds = {
+			krishna: {
+				title: "Krishna Flute",
+				subtitle: "Divine Krishna Flute Music",
+				url: "https://archive.org/download/KrishnaMantras/02%20-%20Bansi%20Baj%20Rahe%20Nanda%20Lal%20Ki.mp3",
+				image: "https://images.unsplash.com/photo-1605937166355-5218f51e6a3d?w=500&h=400&fit=crop"
+			},
+			hanuman: {
+				title: "Hanuman Chalisa",
+				subtitle: "Hanuman Devotional Chanting",
+				url: "https://archive.org/download/hanumanchalisa/Hanuman%20Chalisa%20-%20Hariharan.mp3",
+				image: "https://images.unsplash.com/photo-1602088113235-229c19758e9f?w=500&h=400&fit=crop"
+			},
+			shiva: {
+				title: "Shiva Mantra",
+				subtitle: "Om Namah Shivaya Meditation",
+				url: "https://archive.org/download/omnamahshivaya/Om%20Namah%20Shivaya%20-%20Meditation%20Music.mp3",
+				image: "https://images.unsplash.com/photo-1605937166355-5218f51e6a3d?w=500&h=400&fit=crop"
+			},
+			ganesh: {
+				title: "Ganesh Aarti",
+				subtitle: "Ganesh Blessing Chant",
+				url: "https://archive.org/download/ganesharti/Ganesh%20Aarti%20-%20Traditional.mp3",
+				image: "https://images.unsplash.com/photo-1609291456508-c41c1b02cc66?w=500&h=400&fit=crop"
+			},
+			murugan: {
+				title: "Murugan Bhajan",
+				subtitle: "Murugan Devotional Song",
+				url: "https://archive.org/download/muruganbhajan/Murugan%20Vel%20Vel%20Vel.mp3",
+				image: "https://images.unsplash.com/photo-1608848461950-0fed8e5cc241?w=500&h=400&fit=crop"
+			},
+			peacock: {
+				title: "Peacock Sound",
+				subtitle: "Divine Nature's Melody",
+				url: "https://archive.org/download/peacocksound/Peacock%20Sound%20-%20Nature.mp3",
+				image: "https://images.unsplash.com/photo-1445999250508-46f99df59df3?w=500&h=400&fit=crop"
+			}
+		};
+
+		const params = new URLSearchParams(window.location.search);
+		let currentId = params.get("id") || "krishna";
+		const player = document.getElementById("player");
+		const volumeSlider = document.getElementById("volume");
+		const volumePercent = document.getElementById("volumePercent");
+
+		function loadSound(id) {
+			if (!sounds[id]) id = "krishna";
+			currentId = id;
+
+			const item = sounds[id];
+			document.getElementById("title").innerText = item.title;
+			document.getElementById("subtitle").innerText = item.subtitle;
+			document.getElementById("godImage").src = item.image;
+			player.src = item.url;
+
+			// Update playlist highlighting
+			document.querySelectorAll(".playlist-item").forEach(el => {
+				el.classList.toggle("active", el.dataset.id === id);
+			});
+
+			status("Sound loaded. Press PLAY or SPACE to begin");
+		}
+
+		function status(text) {
+			document.getElementById("status").innerText = text;
+		}
+
+		function playSound() {
+			player.play();
+			status("Playing divine sound...");
+		}
+
+		function pauseSound() {
+			if (player.paused) {
+				player.play();
+				status("Playing divine sound...");
+			} else {
+				player.pause();
+				status("Paused");
+			}
+		}
+
+		function stopSound() {
+			player.pause();
+			player.currentTime = 0;
+			status("Stopped");
+		}
+
+		// Volume control
+		volumeSlider.addEventListener("input", (e) => {
+			player.volume = e.target.value / 100;
+			volumePercent.innerText = e.target.value + "%";
+		});
+
+		// Keyboard shortcuts
+		document.addEventListener("keydown", (e) => {
+			if (e.code === "Space") {
+				e.preventDefault();
+				pauseSound();
+			}
+		});
+
+		// Create playlist grid
+		function initPlaylist() {
+			const grid = document.getElementById("playlistGrid");
+			Object.entries(sounds).forEach(([id, item]) => {
+				const div = document.createElement("div");
+				div.className = "playlist-item";
+				div.dataset.id = id;
+				div.textContent = item.title;
+				div.onclick = () => {
+					loadSound(id);
+					playSound();
+				};
+				grid.appendChild(div);
+			});
+		}
+
+		// Player events
+		player.addEventListener("play", () => {
+			status("Playing divine sound...");
+		});
+
+		player.addEventListener("pause", () => {
+			status("Paused");
+		});
+
+		player.addEventListener("ended", () => {
+			status("Completed");
+		});
+
+		player.addEventListener("error", () => {
+			status("⚠️ Audio loading failed. Check your connection.");
+		});
+
+		player.addEventListener("loadstart", () => {
+			status("Loading...");
+		});
+
+		// Initialize
+		window.addEventListener("load", () => {
+			initPlaylist();
+			loadSound(currentId);
+			player.volume = 0.7;
+
+			// Auto-play attempt
+			const playPromise = player.play();
+			if (playPromise !== undefined) {
+				playPromise.catch(() => {
+					status("Press PLAY to begin");
+				});
+			}
+		});
+	</script>
+</body>
+
+</html>
