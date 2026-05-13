@@ -6,7 +6,7 @@
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
 	<meta name="description" content="Divine Sound - Experience divine energy through sacred devotional sounds">
 	<meta name="theme-color" content="#ffd36a">
-	<title>Divine Sound - DIVINE AI</title>
+	<title id="pageTitle">Divine Sound - DIVINE AI</title>
 	<style>
 		* {
 			margin: 0;
@@ -28,6 +28,7 @@
 			display: flex;
 			flex-direction: column;
 			gap: 20px;
+			justify-content: center;
 		}
 
 		.header {
@@ -223,50 +224,6 @@
 			min-height: 20px;
 		}
 
-		.playlist {
-			margin-top: 20px;
-			padding-top: 20px;
-			border-top: 1px solid rgba(255, 211, 106, 0.3);
-		}
-
-		.playlist-title {
-			color: #ffd36a;
-			font-size: 14px;
-			font-weight: bold;
-			margin-bottom: 12px;
-			letter-spacing: 1px;
-		}
-
-		.playlist-grid {
-			display: grid;
-			grid-template-columns: 1fr 1fr;
-			gap: 10px;
-		}
-
-		.playlist-item {
-			padding: 12px;
-			background: rgba(255, 211, 106, 0.1);
-			border: 1px solid rgba(255, 211, 106, 0.3);
-			border-radius: 12px;
-			cursor: pointer;
-			transition: all 0.3s ease;
-			font-size: 13px;
-			color: #fff0bd;
-		}
-
-		.playlist-item:hover {
-			background: rgba(255, 211, 106, 0.2);
-			transform: translateY(-2px);
-		}
-
-		.playlist-item.active {
-			background: #ffd36a;
-			color: #2b1200;
-			font-weight: bold;
-			border-color: #ffd36a;
-			box-shadow: 0 0 12px rgba(255, 211, 106, 0.6);
-		}
-
 		.footer {
 			font-size: 13px;
 			color: #c9b27c;
@@ -277,6 +234,23 @@
 			font-size: 11px;
 			color: #8b7c5c;
 			margin-top: 8px;
+		}
+
+		.back-link {
+			margin-top: 15px;
+			padding-top: 15px;
+			border-top: 1px solid rgba(255, 211, 106, 0.3);
+		}
+
+		.back-link a {
+			color: #ffd36a;
+			text-decoration: none;
+			font-size: 13px;
+			transition: all 0.3s ease;
+		}
+
+		.back-link a:hover {
+			text-decoration: underline;
 		}
 
 		@media (max-width: 480px) {
@@ -296,15 +270,10 @@
 				padding: 12px;
 				font-size: 14px;
 			}
-
-			.playlist-grid {
-				grid-template-columns: 1fr;
-			}
 		}
 
 		/* Keyboard focus for accessibility */
-		button:focus,
-		.playlist-item:focus {
+		button:focus {
 			outline: 2px solid #ffd36a;
 			outline-offset: 2px;
 		}
@@ -322,9 +291,9 @@
 			<img id="godImage" src="" alt="Divine deity">
 
 			<h1 id="title">Divine Sound</h1>
-			<p class="subtitle" id="subtitle">Tap to Experience Divine Energy</p>
+			<p class="subtitle" id="subtitle">Experience Divine Energy</p>
 
-			<audio id="player" playsinline controls></audio>
+			<audio id="player" controls crossorigin="anonymous"></audio>
 
 			<div class="controls">
 				<button class="play" onclick="playSound()" title="Play (Space)">▶ PLAY</button>
@@ -340,9 +309,8 @@
 
 			<div id="status" class="status">Loading divine sound...</div>
 
-			<div class="playlist">
-				<div class="playlist-title">SELECT A SOUND</div>
-				<div class="playlist-grid" id="playlistGrid"></div>
+			<div class="back-link">
+				<a href="index-list.html">← Back to Sound Selection</a>
 			</div>
 		</div>
 
@@ -355,39 +323,39 @@
 	<script>
 		const sounds = {
 			krishna: {
-				title: "Krishna Flute",
+				title: "🪈 Krishna Flute",
 				subtitle: "Divine Krishna Flute Music",
-				url: "https://archive.org/download/KrishnaMantras/02%20-%20Bansi%20Baj%20Rahe%20Nanda%20Lal%20Ki.mp3",
+				url: "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3",
 				image: "https://images.unsplash.com/photo-1605937166355-5218f51e6a3d?w=500&h=400&fit=crop"
 			},
 			hanuman: {
-				title: "Hanuman Chalisa",
+				title: "🤝 Hanuman Chalisa",
 				subtitle: "Hanuman Devotional Chanting",
-				url: "https://archive.org/download/hanumanchalisa/Hanuman%20Chalisa%20-%20Hariharan.mp3",
+				url: "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-2.mp3",
 				image: "https://images.unsplash.com/photo-1602088113235-229c19758e9f?w=500&h=400&fit=crop"
 			},
 			shiva: {
-				title: "Shiva Mantra",
+				title: "🕉️ Shiva Mantra",
 				subtitle: "Om Namah Shivaya Meditation",
-				url: "https://archive.org/download/omnamahshivaya/Om%20Namah%20Shivaya%20-%20Meditation%20Music.mp3",
+				url: "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-3.mp3",
 				image: "https://images.unsplash.com/photo-1605937166355-5218f51e6a3d?w=500&h=400&fit=crop"
 			},
 			ganesh: {
-				title: "Ganesh Aarti",
+				title: "🐘 Ganesh Aarti",
 				subtitle: "Ganesh Blessing Chant",
-				url: "https://archive.org/download/ganesharti/Ganesh%20Aarti%20-%20Traditional.mp3",
+				url: "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-4.mp3",
 				image: "https://images.unsplash.com/photo-1609291456508-c41c1b02cc66?w=500&h=400&fit=crop"
 			},
 			murugan: {
-				title: "Murugan Bhajan",
+				title: "⚔️ Murugan Bhajan",
 				subtitle: "Murugan Devotional Song",
-				url: "https://archive.org/download/muruganbhajan/Murugan%20Vel%20Vel%20Vel.mp3",
+				url: "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-5.mp3",
 				image: "https://images.unsplash.com/photo-1608848461950-0fed8e5cc241?w=500&h=400&fit=crop"
 			},
 			peacock: {
-				title: "Peacock Sound",
+				title: "🦚 Peacock Sound",
 				subtitle: "Divine Nature's Melody",
-				url: "https://archive.org/download/peacocksound/Peacock%20Sound%20-%20Nature.mp3",
+				url: "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-6.mp3",
 				image: "https://images.unsplash.com/photo-1445999250508-46f99df59df3?w=500&h=400&fit=crop"
 			}
 		};
@@ -406,13 +374,11 @@
 			document.getElementById("title").innerText = item.title;
 			document.getElementById("subtitle").innerText = item.subtitle;
 			document.getElementById("godImage").src = item.image;
+			document.getElementById("pageTitle").innerText = item.title + " - Divine Sound";
+			
+			// Set audio source
 			player.src = item.url;
-
-			// Update playlist highlighting
-			document.querySelectorAll(".playlist-item").forEach(el => {
-				el.classList.toggle("active", el.dataset.id === id);
-			});
-
+			
 			status("Sound loaded. Press PLAY or SPACE to begin");
 		}
 
@@ -421,14 +387,22 @@
 		}
 
 		function playSound() {
-			player.play();
-			status("Playing divine sound...");
+			const playPromise = player.play();
+			if (playPromise !== undefined) {
+				playPromise
+					.then(() => {
+						status("Playing divine sound...");
+					})
+					.catch((error) => {
+						status("⚠️ Play failed: " + error.message);
+						console.error("Play error:", error);
+					});
+			}
 		}
 
 		function pauseSound() {
 			if (player.paused) {
-				player.play();
-				status("Playing divine sound...");
+				playSound();
 			} else {
 				player.pause();
 				status("Paused");
@@ -455,22 +429,6 @@
 			}
 		});
 
-		// Create playlist grid
-		function initPlaylist() {
-			const grid = document.getElementById("playlistGrid");
-			Object.entries(sounds).forEach(([id, item]) => {
-				const div = document.createElement("div");
-				div.className = "playlist-item";
-				div.dataset.id = id;
-				div.textContent = item.title;
-				div.onclick = () => {
-					loadSound(id);
-					playSound();
-				};
-				grid.appendChild(div);
-			});
-		}
-
 		// Player events
 		player.addEventListener("play", () => {
 			status("Playing divine sound...");
@@ -484,7 +442,8 @@
 			status("Completed");
 		});
 
-		player.addEventListener("error", () => {
+		player.addEventListener("error", (e) => {
+			console.error("Audio error:", e);
 			status("⚠️ Audio loading failed. Check your connection.");
 		});
 
@@ -492,19 +451,14 @@
 			status("Loading...");
 		});
 
+		player.addEventListener("canplay", () => {
+			status("Ready to play");
+		});
+
 		// Initialize
 		window.addEventListener("load", () => {
-			initPlaylist();
 			loadSound(currentId);
 			player.volume = 0.7;
-
-			// Auto-play attempt
-			const playPromise = player.play();
-			if (playPromise !== undefined) {
-				playPromise.catch(() => {
-					status("Press PLAY to begin");
-				});
-			}
 		});
 	</script>
 </body>
