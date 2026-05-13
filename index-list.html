@@ -1,0 +1,304 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<meta name="description" content="Divine Sound - Select a deity to experience divine energy">
+	<meta name="theme-color" content="#ffd36a">
+	<title>Divine Sound - Select a Deity</title>
+	<style>
+		* {
+			margin: 0;
+			padding: 0;
+			box-sizing: border-box;
+		}
+
+		body {
+			font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+			color: white;
+			text-align: center;
+			background: linear-gradient(160deg, #190008, #4b1d00, #050005);
+			min-height: 100vh;
+			padding: 20px;
+		}
+
+		.wrap {
+			max-width: 900px;
+			margin: 0 auto;
+		}
+
+		.header {
+			margin-bottom: 40px;
+			animation: slideDown 0.8s ease-out;
+		}
+
+		@keyframes slideDown {
+			from {
+				opacity: 0;
+				transform: translateY(-20px);
+			}
+			to {
+				opacity: 1;
+				transform: translateY(0);
+			}
+		}
+
+		.logo {
+			color: #ffd36a;
+			font-size: 36px;
+			font-weight: bold;
+			letter-spacing: 2px;
+			text-shadow: 0 0 15px rgba(255, 211, 106, 0.5);
+			margin-bottom: 10px;
+		}
+
+		.tagline {
+			color: #c9b27c;
+			font-size: 14px;
+			letter-spacing: 1px;
+		}
+
+		.subtitle {
+			color: #fff0bd;
+			font-size: 16px;
+			margin-top: 15px;
+			line-height: 1.5;
+		}
+
+		.grid {
+			display: grid;
+			grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+			gap: 20px;
+			margin-top: 30px;
+		}
+
+		.sound-card {
+			background: rgba(255, 255, 255, 0.09);
+			border: 1px solid #ffd36a;
+			border-radius: 20px;
+			padding: 20px;
+			cursor: pointer;
+			transition: all 0.3s ease;
+			text-decoration: none;
+			color: inherit;
+			display: flex;
+			flex-direction: column;
+			align-items: center;
+			gap: 12px;
+			box-shadow: 0 0 20px rgba(255, 211, 106, 0.1);
+			backdrop-filter: blur(10px);
+		}
+
+		.sound-card:hover {
+			transform: translateY(-8px);
+			box-shadow: 0 0 35px rgba(255, 211, 106, 0.35);
+			border-color: #ffffff;
+			background: rgba(255, 255, 255, 0.15);
+		}
+
+		.sound-card:active {
+			transform: translateY(-4px);
+		}
+
+		.emoji {
+			font-size: 48px;
+			line-height: 1;
+			animation: float 3s ease-in-out infinite;
+		}
+
+		@keyframes float {
+			0%, 100% {
+				transform: translateY(0px);
+			}
+			50% {
+				transform: translateY(-10px);
+			}
+		}
+
+		.sound-card:nth-child(1) .emoji {
+			animation-delay: 0s;
+		}
+
+		.sound-card:nth-child(2) .emoji {
+			animation-delay: 0.2s;
+		}
+
+		.sound-card:nth-child(3) .emoji {
+			animation-delay: 0.4s;
+		}
+
+		.sound-card:nth-child(4) .emoji {
+			animation-delay: 0.6s;
+		}
+
+		.sound-card:nth-child(5) .emoji {
+			animation-delay: 0.8s;
+		}
+
+		.sound-card:nth-child(6) .emoji {
+			animation-delay: 1s;
+		}
+
+		.title {
+			color: #ffd36a;
+			font-size: 18px;
+			font-weight: bold;
+		}
+
+		.description {
+			color: #c9b27c;
+			font-size: 13px;
+			line-height: 1.4;
+		}
+
+		.cta {
+			color: #fff0bd;
+			font-size: 12px;
+			margin-top: 8px;
+			opacity: 0.8;
+		}
+
+		.footer {
+			margin-top: 50px;
+			padding-top: 30px;
+			border-top: 1px solid rgba(255, 211, 106, 0.2);
+			font-size: 13px;
+			color: #c9b27c;
+		}
+
+		.footer-note {
+			font-size: 11px;
+			color: #8b7c5c;
+			margin-top: 10px;
+		}
+
+		@media (max-width: 768px) {
+			.logo {
+				font-size: 28px;
+			}
+
+			.grid {
+				grid-template-columns: 1fr 1fr;
+				gap: 15px;
+			}
+
+			.sound-card {
+				padding: 15px;
+			}
+
+			.emoji {
+				font-size: 40px;
+			}
+
+			.title {
+				font-size: 16px;
+			}
+		}
+
+		@media (max-width: 480px) {
+			.logo {
+				font-size: 24px;
+			}
+
+			.grid {
+				grid-template-columns: 1fr;
+				gap: 12px;
+			}
+
+			.sound-card {
+				padding: 15px;
+				flex-direction: row;
+				align-items: flex-start;
+				gap: 15px;
+				text-align: left;
+			}
+
+			.emoji {
+				font-size: 32px;
+				flex-shrink: 0;
+			}
+
+			.title {
+				font-size: 15px;
+			}
+
+			.description {
+				font-size: 12px;
+			}
+		}
+
+		/* Accessibility */
+		.sound-card:focus {
+			outline: 2px solid #ffd36a;
+			outline-offset: 2px;
+		}
+	</style>
+</head>
+
+<body>
+	<div class="wrap">
+		<div class="header">
+			<div class="logo">🎵 DIVINE SOUND</div>
+			<div class="tagline">WHERE DEVOTION MEETS INTELLIGENCE</div>
+			<p class="subtitle">Select a deity to experience divine energy through sacred devotional sounds</p>
+		</div>
+
+		<div class="grid">
+			<!-- Krishna -->
+			<a href="index.html?id=krishna" class="sound-card">
+				<div class="emoji">🪈</div>
+				<div class="title">Krishna Flute</div>
+				<div class="description">Divine Krishna Flute Music</div>
+				<div class="cta">Click to play →</div>
+			</a>
+
+			<!-- Hanuman -->
+			<a href="index.html?id=hanuman" class="sound-card">
+				<div class="emoji">🤝</div>
+				<div class="title">Hanuman Chalisa</div>
+				<div class="description">Hanuman Devotional Chanting</div>
+				<div class="cta">Click to play →</div>
+			</a>
+
+			<!-- Shiva -->
+			<a href="index.html?id=shiva" class="sound-card">
+				<div class="emoji">🕉️</div>
+				<div class="title">Shiva Mantra</div>
+				<div class="description">Om Namah Shivaya Meditation</div>
+				<div class="cta">Click to play →</div>
+			</a>
+
+			<!-- Ganesh -->
+			<a href="index.html?id=ganesh" class="sound-card">
+				<div class="emoji">🐘</div>
+				<div class="title">Ganesh Aarti</div>
+				<div class="description">Ganesh Blessing Chant</div>
+				<div class="cta">Click to play →</div>
+			</a>
+
+			<!-- Murugan -->
+			<a href="index.html?id=murugan" class="sound-card">
+				<div class="emoji">⚔️</div>
+				<div class="title">Murugan Bhajan</div>
+				<div class="description">Murugan Devotional Song</div>
+				<div class="cta">Click to play →</div>
+			</a>
+
+			<!-- Peacock -->
+			<a href="index.html?id=peacock" class="sound-card">
+				<div class="emoji">🦚</div>
+				<div class="title">Peacock Sound</div>
+				<div class="description">Divine Nature's Melody</div>
+				<div class="cta">Click to play →</div>
+			</a>
+		</div>
+
+		<div class="footer">
+			✨ Where devotion meets intelligence ✨
+			<div class="footer-note">Each sound opens in its own dedicated player. Enjoy your divine experience!</div>
+		</div>
+	</div>
+</body>
+
+</html>
