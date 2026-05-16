@@ -1,0 +1,608 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<meta name="description" content="NFC Divine Sound - Tap NFC to play divine sounds">
+	<meta name="theme-color" content="#ffd36a">
+	<title>NFC Divine Sound</title>
+	<style>
+		* {
+			margin: 0;
+			padding: 0;
+			box-sizing: border-box;
+		}
+
+		body {
+			font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+			color: white;
+			text-align: center;
+			background: linear-gradient(160deg, #190008, #4b1d00, #050005);
+			min-height: 100vh;
+		}
+
+		.wrap {
+			padding: 22px;
+			min-height: 100vh;
+			display: flex;
+			flex-direction: column;
+			gap: 20px;
+		}
+
+		.header {
+			margin-bottom: 10px;
+		}
+
+		.logo {
+			color: #ffd36a;
+			font-size: 28px;
+			font-weight: bold;
+			letter-spacing: 2px;
+			text-shadow: 0 0 10px rgba(255, 211, 106, 0.5);
+		}
+
+		.tagline {
+			color: #c9b27c;
+			font-size: 12px;
+			letter-spacing: 1px;
+			margin-top: 5px;
+		}
+
+		.card {
+			max-width: 480px;
+			margin: auto;
+			background: rgba(255, 255, 255, 0.09);
+			border: 1px solid #ffd36a;
+			border-radius: 26px;
+			padding: 20px;
+			box-shadow: 0 0 35px rgba(255, 211, 106, 0.35);
+			backdrop-filter: blur(10px);
+			animation: slideIn 0.6s ease-out;
+		}
+
+		@keyframes slideIn {
+			from {
+				opacity: 0;
+				transform: translateY(20px);
+			}
+			to {
+				opacity: 1;
+				transform: translateY(0);
+			}
+		}
+
+		.nfc-status {
+			padding: 15px;
+			border-radius: 12px;
+			margin: 15px 0;
+			font-weight: bold;
+			transition: all 0.3s ease;
+		}
+
+		.nfc-ready {
+			background: rgba(76, 175, 80, 0.2);
+			border: 2px solid #4caf50;
+			color: #81c784;
+		}
+
+		.nfc-scanning {
+			background: rgba(255, 193, 7, 0.2);
+			border: 2px solid #ffc107;
+			color: #fff9c4;
+			animation: pulse 1.5s infinite;
+		}
+
+		.nfc-detected {
+			background: rgba(33, 150, 243, 0.2);
+			border: 2px solid #2196f3;
+			color: #64b5f6;
+		}
+
+		@keyframes pulse {
+			0%, 100% {
+				box-shadow: 0 0 0 0 rgba(255, 193, 7, 0.7);
+			}
+			50% {
+				box-shadow: 0 0 0 10px rgba(255, 193, 7, 0);
+			}
+		}
+
+		img {
+			width: 100%;
+			max-height: 310px;
+			object-fit: cover;
+			border-radius: 20px;
+			border: 2px solid #ffd36a;
+			margin-bottom: 15px;
+		}
+
+		h1 {
+			color: #ffd36a;
+			font-size: 30px;
+			margin: 10px 0 5px;
+		}
+
+		.subtitle {
+			font-size: 14px;
+			color: #c9b27c;
+			margin-bottom: 15px;
+		}
+
+		audio {
+			width: 100%;
+			margin: 15px 0;
+			outline: none;
+		}
+
+		button {
+			width: 100%;
+			padding: 15px;
+			margin: 8px 0;
+			font-size: 16px;
+			font-weight: bold;
+			border: none;
+			border-radius: 16px;
+			cursor: pointer;
+			transition: all 0.3s ease;
+		}
+
+		button:hover {
+			transform: translateY(-2px);
+			box-shadow: 0 4px 15px rgba(255, 211, 106, 0.4);
+		}
+
+		.play {
+			background: #ffd36a;
+			color: #2b1200;
+		}
+
+		.stop {
+			background: #222;
+			color: white;
+			border: 1px solid #777;
+		}
+
+		.volume-control {
+			margin: 15px 0;
+			display: flex;
+			align-items: center;
+			gap: 10px;
+		}
+
+		.volume-control label {
+			color: #ffd36a;
+			font-weight: bold;
+		}
+
+		.volume-control input {
+			flex: 1;
+			height: 6px;
+			border-radius: 3px;
+			background: rgba(255, 211, 106, 0.3);
+			-webkit-appearance: none;
+		}
+
+		.volume-control input::-webkit-slider-thumb {
+			-webkit-appearance: none;
+			width: 16px;
+			height: 16px;
+			border-radius: 50%;
+			background: #ffd36a;
+			cursor: pointer;
+		}
+
+		.status {
+			color: #ffd36a;
+			margin: 12px 0;
+			font-size: 14px;
+			min-height: 20px;
+		}
+
+		.setup-section {
+			background: rgba(255, 211, 106, 0.1);
+			border: 1px solid rgba(255, 211, 106, 0.3);
+			padding: 15px;
+			border-radius: 12px;
+			margin: 15px 0;
+		}
+
+		.setup-title {
+			color: #ffd36a;
+			font-weight: bold;
+			margin-bottom: 10px;
+		}
+
+		input[type="url"],
+		select {
+			width: 100%;
+			padding: 10px;
+			margin: 8px 0;
+			border: 1px solid #ffd36a;
+			border-radius: 8px;
+			background: rgba(255, 255, 255, 0.1);
+			color: white;
+			font-size: 13px;
+		}
+
+		input[type="url"]::placeholder {
+			color: #c9b27c;
+		}
+
+		.saved-sounds {
+			background: rgba(255, 211, 106, 0.05);
+			padding: 15px;
+			border-radius: 12px;
+			margin: 15px 0;
+		}
+
+		.sound-item {
+			background: rgba(255, 211, 106, 0.1);
+			padding: 10px;
+			margin: 8px 0;
+			border-radius: 8px;
+			display: flex;
+			justify-content: space-between;
+			align-items: center;
+		}
+
+		.sound-name {
+			color: #ffd36a;
+			font-weight: bold;
+		}
+
+		.delete-btn {
+			background: #d32f2f;
+			color: white;
+			border: none;
+			padding: 5px 10px;
+			border-radius: 5px;
+			cursor: pointer;
+			font-size: 12px;
+		}
+
+		.delete-btn:hover {
+			background: #b71c1c;
+		}
+
+		.footer {
+			font-size: 13px;
+			color: #c9b27c;
+			margin-top: 20px;
+		}
+
+		@media (max-width: 480px) {
+			.card {
+				padding: 15px;
+			}
+
+			h1 {
+				font-size: 24px;
+			}
+
+			.logo {
+				font-size: 22px;
+			}
+		}
+	</style>
+</head>
+
+<body>
+	<div class="wrap">
+		<div class="header">
+			<div class="logo">📱 NFC DIVINE SOUND</div>
+			<div class="tagline">TAP NFC TO PLAY DIVINE SOUNDS</div>
+		</div>
+
+		<div class="card">
+			<!-- NFC Status -->
+			<div id="nfcStatus" class="nfc-status nfc-ready">
+				✅ Ready to detect NFC • Tap your NFC tag
+			</div>
+
+			<!-- Currently Playing -->
+			<img id="godImage" src="" alt="Divine deity">
+
+			<h1 id="title">Ready to Tap NFC</h1>
+			<p class="subtitle" id="subtitle">Tap an NFC tag to play sound</p>
+
+			<audio id="player" controls playsinline crossorigin="anonymous"></audio>
+
+			<div style="display: flex; gap: 10px;">
+				<button class="play" onclick="playSound()" style="flex: 1;">▶ PLAY</button>
+				<button class="stop" onclick="stopSound()" style="flex: 1;">■ STOP</button>
+			</div>
+
+			<div class="volume-control">
+				<label for="volume">🔊</label>
+				<input type="range" id="volume" min="0" max="100" value="70">
+				<span class="volume-percent" id="volumePercent">70%</span>
+			</div>
+
+			<div id="status" class="status">Waiting for NFC tap...</div>
+
+			<!-- Setup New Sound -->
+			<div class="setup-section">
+				<div class="setup-title">➕ Add New Sound</div>
+				<select id="soundName" placeholder="Sound name">
+					<option value="">Select or enter sound name...</option>
+					<option value="Krishna">🪈 Krishna Flute</option>
+					<option value="Hanuman">🤝 Hanuman Chalisa</option>
+					<option value="Shiva">🕉️ Shiva Mantra</option>
+					<option value="Ganesh">🐘 Ganesh Aarti</option>
+					<option value="Murugan">⚔️ Murugan Bhajan</option>
+					<option value="Peacock">🦚 Peacock Sound</option>
+				</select>
+				<input type="url" id="audioUrl" placeholder="Enter audio URL (https://...)">
+				<input type="url" id="imageUrl" placeholder="Enter image URL (https://...)">
+				<button class="play" onclick="saveSound()" style="margin-top: 10px;">💾 SAVE SOUND</button>
+			</div>
+
+			<!-- Saved Sounds -->
+			<div class="saved-sounds">
+				<div class="setup-title">📚 Saved Sounds</div>
+				<div id="soundsList"></div>
+			</div>
+
+			<!-- NFC Write Section -->
+			<div class="setup-section">
+				<div class="setup-title">🏷️ Write to NFC Tag</div>
+				<p style="font-size: 12px; color: #c9b27c; margin-bottom: 10px;">Select a sound and tap NFC tag to write</p>
+				<select id="nfcSoundSelect" onchange="updateNFCWrite()">
+					<option value="">Select sound to write...</option>
+				</select>
+				<button class="play" onclick="prepareNFCWrite()" style="margin-top: 10px;">✍️ READY TO WRITE NFC</button>
+			</div>
+		</div>
+
+		<div class="footer">
+			✨ Divine Sound NFC Experience ✨
+			<div style="font-size: 11px; margin-top: 8px;">Saves locally • Works offline • NFC enabled</div>
+		</div>
+	</div>
+
+	<script>
+		let currentSound = null;
+		let readyToWrite = false;
+		let writeData = null;
+
+		// Initialize
+		window.addEventListener('load', () => {
+			loadSoundsList();
+			initNFC();
+			setupVolumeControl();
+		});
+
+		// Volume control
+		function setupVolumeControl() {
+			const slider = document.getElementById('volume');
+			const percent = document.getElementById('volumePercent');
+			const player = document.getElementById('player');
+
+			slider.addEventListener('input', (e) => {
+				player.volume = e.target.value / 100;
+				percent.innerText = e.target.value + '%';
+			});
+
+			player.volume = 0.7;
+		}
+
+		// Save sound to localStorage
+		function saveSound() {
+			const name = document.getElementById('soundName').value;
+			const audioUrl = document.getElementById('audioUrl').value;
+			const imageUrl = document.getElementById('imageUrl').value;
+
+			if (!name || !audioUrl) {
+				alert('❌ Please fill in sound name and audio URL');
+				return;
+			}
+
+			const sound = { name, audioUrl, imageUrl };
+			let sounds = JSON.parse(localStorage.getItem('divingSounds')) || {};
+			sounds[name] = sound;
+			localStorage.setItem('divingSounds', JSON.stringify(sounds));
+
+			// Clear inputs
+			document.getElementById('soundName').value = '';
+			document.getElementById('audioUrl').value = '';
+			document.getElementById('imageUrl').value = '';
+
+			updateStatus('✅ Sound saved: ' + name);
+			loadSoundsList();
+		}
+
+		// Load saved sounds
+		function loadSoundsList() {
+			const sounds = JSON.parse(localStorage.getItem('divingSounds')) || {};
+			const list = document.getElementById('soundsList');
+			const select = document.getElementById('nfcSoundSelect');
+
+			list.innerHTML = '';
+			select.innerHTML = '<option value="">Select sound to write...</option>';
+
+			if (Object.keys(sounds).length === 0) {
+				list.innerHTML = '<p style="color: #c9b27c; font-size: 12px;">No sounds saved yet</p>';
+				return;
+			}
+
+			Object.entries(sounds).forEach(([key, sound]) => {
+				// Add to list
+				const item = document.createElement('div');
+				item.className = 'sound-item';
+				item.innerHTML = `
+					<span>
+						<div class="sound-name">${sound.name}</div>
+						<div style="font-size: 11px; color: #8b7c5c;">${sound.audioUrl.substring(0, 40)}...</div>
+					</span>
+					<button class="delete-btn" onclick="deleteSound('${sound.name}')">🗑️ Delete</button>
+				`;
+				list.appendChild(item);
+
+				// Add to select
+				const option = document.createElement('option');
+				option.value = sound.name;
+				option.text = sound.name;
+				select.appendChild(option);
+			});
+		}
+
+		// Delete sound
+		function deleteSound(name) {
+			if (confirm('Delete ' + name + '?')) {
+				let sounds = JSON.parse(localStorage.getItem('divingSounds')) || {};
+				delete sounds[name];
+				localStorage.setItem('divingSounds', JSON.stringify(sounds));
+				updateStatus('🗑️ Deleted: ' + name);
+				loadSoundsList();
+			}
+		}
+
+		// Play sound
+		function playSound() {
+			if (!currentSound) {
+				alert('❌ No sound loaded. Tap NFC or select a sound.');
+				return;
+			}
+			document.getElementById('player').play();
+			updateStatus('▶️ Playing: ' + currentSound.name);
+		}
+
+		// Stop sound
+		function stopSound() {
+			const player = document.getElementById('player');
+			player.pause();
+			player.currentTime = 0;
+			updateStatus('⏹️ Stopped');
+		}
+
+		// Update status
+		function updateStatus(text) {
+			document.getElementById('status').innerText = text;
+		}
+
+		// NFC Detection & Write
+		function initNFC() {
+			if ('NDEFReader' in window) {
+				scanNFC();
+			} else {
+				updateStatus('⚠️ NFC not supported on this device');
+				document.getElementById('nfcStatus').innerHTML = '⚠️ NFC not supported • Use manual setup';
+				document.getElementById('nfcStatus').className = 'nfc-status';
+			}
+		}
+
+		async function scanNFC() {
+			try {
+				const ndef = new NDEFReader();
+				await ndef.scan();
+
+				updateNFCStatus('📡 Scanning for NFC...', 'nfc-scanning');
+
+				ndef.onreading = (event) => {
+					handleNFCRead(event);
+				};
+
+				ndef.onerror = () => {
+					updateNFCStatus('❌ NFC error', 'nfc-ready');
+				};
+
+			} catch (error) {
+				console.log('NFC unavailable:', error);
+				updateNFCStatus('⚠️ NFC not available', 'nfc-ready');
+			}
+		}
+
+		function handleNFCRead(event) {
+			for (const record of event.message.records) {
+				if (record.recordType === 'text') {
+					const decoder = new TextDecoder();
+					const soundName = decoder.decode(record.data);
+					const sounds = JSON.parse(localStorage.getItem('divingSounds')) || {};
+
+					if (sounds[soundName]) {
+						loadAndPlaySound(sounds[soundName]);
+						updateNFCStatus('✅ NFC Detected: ' + soundName, 'nfc-detected');
+					} else {
+						updateStatus('❌ Sound not found: ' + soundName);
+						updateNFCStatus('❌ Sound not found', 'nfc-ready');
+					}
+				}
+			}
+
+			// Reset to scanning after 2 seconds
+			setTimeout(() => {
+				updateNFCStatus('✅ Ready to detect NFC • Tap your NFC tag', 'nfc-ready');
+			}, 2000);
+		}
+
+		function loadAndPlaySound(sound) {
+			currentSound = sound;
+			document.getElementById('title').innerText = sound.name;
+			document.getElementById('subtitle').innerText = 'NFC Detected • Now Playing';
+			if (sound.imageUrl) {
+				document.getElementById('godImage').src = sound.imageUrl;
+			}
+			document.getElementById('player').src = sound.audioUrl;
+			document.getElementById('player').play();
+			updateStatus('🎵 Playing: ' + sound.name);
+		}
+
+		async function prepareNFCWrite() {
+			const soundName = document.getElementById('nfcSoundSelect').value;
+			if (!soundName) {
+				alert('❌ Select a sound first');
+				return;
+			}
+
+			const sounds = JSON.parse(localStorage.getItem('divingSounds')) || {};
+			if (!sounds[soundName]) {
+				alert('❌ Sound not found');
+				return;
+			}
+
+			readyToWrite = true;
+			writeData = soundName;
+			updateStatus('✍️ Ready to write NFC • Tap your tag now...');
+			updateNFCStatus('📝 Ready to write NFC tag', 'nfc-scanning');
+
+			try {
+				const ndef = new NDEFReader();
+				await ndef.write({
+					records: [{
+						recordType: 'text',
+						data: soundName
+					}]
+				});
+
+				updateStatus('✅ NFC tag written successfully!');
+				updateNFCStatus('✅ NFC tag written', 'nfc-detected');
+				readyToWrite = false;
+
+				setTimeout(() => {
+					initNFC(); // Resume scanning
+				}, 2000);
+
+			} catch (error) {
+				updateStatus('❌ Failed to write NFC: ' + error);
+				updateNFCStatus('❌ Write failed', 'nfc-ready');
+				readyToWrite = false;
+			}
+		}
+
+		function updateNFCStatus(text, className) {
+			const status = document.getElementById('nfcStatus');
+			status.innerText = text;
+			status.className = 'nfc-status ' + className;
+		}
+
+		function updateNFCWrite() {
+			const soundName = document.getElementById('nfcSoundSelect').value;
+			if (soundName) {
+				updateStatus('Selected: ' + soundName + ' • Ready to write to NFC');
+			}
+		}
+	</script>
+</body>
+
+</html>
