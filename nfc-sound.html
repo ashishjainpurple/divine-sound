@@ -79,7 +79,7 @@
 
 		<div class="nfc-status" id="nfcStatus">✅ Ready to detect NFC</div>
 
-		<h2 id="title">Tap NFC to Play</h2>
+		<h2 id="title">🪈 Krishna Flute</h2>
 		<audio id="player" controls></audio>
 		<button onclick="playSound()">▶ PLAY</button>
 		<button onclick="stopSound()" style="background: #666;">■ STOP</button>
@@ -103,11 +103,20 @@
 
 	<script>
 		let currentSound = null;
+		const KRISHNA_URL = "https://archive.org/download/KrishnaMantras/02%20-%20Bansi%20Baj%20Rahe%20Nanda%20Lal%20Ki.mp3";
 
 		window.addEventListener('load', () => {
+			loadKrishnaSound();
 			loadSounds();
 			scanNFC();
 		});
+
+		function loadKrishnaSound() {
+			currentSound = { name: 'Krishna Flute', url: KRISHNA_URL };
+			document.getElementById('player').src = KRISHNA_URL;
+			document.getElementById('title').innerText = '🪈 Krishna Flute';
+			document.getElementById('status').innerText = 'Krishna sound loaded';
+		}
 
 		function saveSound() {
 			const name = document.getElementById('soundName').value;
@@ -132,16 +141,22 @@
 			list.innerHTML = '';
 			select.innerHTML = '<option value="">Select sound...</option>';
 
+			// Add Krishna as default option
+			let opt = document.createElement('option');
+			opt.value = 'Krishna Flute';
+			opt.text = '🪈 Krishna Flute';
+			select.appendChild(opt);
+
 			Object.entries(sounds).forEach(([name, url]) => {
 				const item = document.createElement('div');
 				item.className = 'item';
 				item.innerHTML = `<span>${name}</span><button class="del-btn" onclick="deleteSound('${name}')">Delete</button>`;
 				list.appendChild(item);
 
-				const opt = document.createElement('option');
-				opt.value = name;
-				opt.text = name;
-				select.appendChild(opt);
+				const option = document.createElement('option');
+				option.value = name;
+				option.text = name;
+				select.appendChild(option);
 			});
 		}
 
@@ -157,12 +172,14 @@
 		function playSound() {
 			if (!currentSound) { alert('No sound loaded'); return; }
 			document.getElementById('player').play();
+			document.getElementById('status').innerText = '▶️ Playing: ' + currentSound.name;
 		}
 
 		function stopSound() {
 			const p = document.getElementById('player');
 			p.pause();
 			p.currentTime = 0;
+			document.getElementById('status').innerText = '⏹️ Stopped';
 		}
 
 		async function scanNFC() {
@@ -174,18 +191,24 @@
 			try {
 				const ndef = new NDEFReader();
 				await ndef.scan();
-				document.getElementById('status').innerText = '📡 Scanning...';
+				document.getElementById('status').innerText = '📡 Scanning for NFC...';
 
 				ndef.onreading = (e) => {
 					const decoder = new TextDecoder();
 					const sound = decoder.decode(e.message.records[0].data);
 					const sounds = JSON.parse(localStorage.getItem('sounds')) || {};
 
-					if (sounds[sound]) {
-						currentSound = sound;
-						const url = sounds[sound];
+					if (sound === 'Krishna Flute') {
+						currentSound = { name: 'Krishna Flute', url: KRISHNA_URL };
+						document.getElementById('title').innerText = '🪈 Krishna Flute';
+						document.getElementById('player').src = KRISHNA_URL;
+						document.getElementById('player').play();
+						document.getElementById('status').innerText = '✅ NFC: Krishna Flute';
+						document.getElementById('nfcStatus').innerText = '✅ Detected: Krishna Flute';
+					} else if (sounds[sound]) {
+						currentSound = { name: sound, url: sounds[sound] };
 						document.getElementById('title').innerText = sound;
-						document.getElementById('player').src = url;
+						document.getElementById('player').src = sounds[sound];
 						document.getElementById('player').play();
 						document.getElementById('status').innerText = '✅ NFC: ' + sound;
 						document.getElementById('nfcStatus').innerText = '✅ Detected: ' + sound;
